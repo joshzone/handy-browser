@@ -1,65 +1,134 @@
-# React TypeScript Chrome Extension
+# React Chrome Extension Template
 
-## Overview
+A minimal Chrome extension starter built with React 19, TypeScript, Vite, and Tailwind CSS.
 
-This project demonstrates how to build a Chrome Extension using React and TypeScript. It includes examples of a Popup and a Content Script React app, both built and bundled with Vite and crxjs.
+## Quick Start
 
-## Setup
+```bash
+# Clone the template
+git clone https://github.com/yosevu/react-content-script.git my-extension
+cd my-extension
 
-### Clone repository
-```sh
-git clone git@github.com:yosevu/react-content-script.git
+# Run setup wizard
+npm run setup
+
+# Install dependencies
+npm install
+
+# Start development
+npm run dev
 ```
 
-### Install dependencies
-```sh
-yarn
+## Load in Chrome
+
+1. Open `chrome://extensions`
+2. Enable "Developer mode" (top right)
+3. Click "Load unpacked"
+4. Select the `dist` folder
+
+## Project Structure
+
+```
+├── options.html            # Options page entry
+├── src/                    # Popup UI
+│   ├── App.tsx
+│   ├── background.ts       # Service worker (background)
+│   ├── main.tsx
+│   └── options.tsx         # Options UI
+├── content-script/         # Content script (injected into pages)
+│   └── src/
+│       ├── App.tsx
+│       └── main.tsx
+├── lib/                    # Shared code
+│   ├── components/
+│   └── styles/
+├── public/
+│   └── icons/              # Extension icons (16, 32, 48, 128px)
+├── manifest.json           # Extension configuration
+└── scripts/
+    └── setup.js            # Setup wizard
 ```
 
-### Development
+## Scripts
 
-To start a development server with hot-reloading:
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server with HMR |
+| `npm run build` | Build for production |
+| `npm run lint` | Run ESLint |
+| `npm run setup` | Run setup wizard |
 
-```sh
-yarn dev
+## Customizing Icons
+
+Replace the files in `public/icons/` with your own icon set:
+
+```json
+"icons": {
+  "16": "icons/icon-16.png",
+  "32": "icons/icon-32.png",
+  "48": "icons/icon-48.png",
+  "128": "icons/icon-128.png"
+}
 ```
 
-### Build for Production
+## Background Service Worker
 
-To create a production-ready build of the extension:
+The service worker (`src/background.ts`) demonstrates a minimal use case:
+increment a badge counter for quick visual feedback.
 
-```sh
-yarn build
+## Options Page
+
+An options page is available at `options.html`. The popup includes a button
+to open it, or you can open it from the extension details page. It also
+includes a "Reset badge" button to show background messaging.
+
+## Demo: Extension Tour
+
+This template includes a tiny demo app that touches the core extension pieces:
+- Content script overlay injected on pages.
+- Popup buttons that message the content script and background.
+- Background service worker that updates the badge.
+- Options page that can trigger background actions.
+
+Quick tour:
+1. Visit any page and spot the content script overlay.
+2. Use "Overlay" in the popup (or the in-page Hide/Show controls).
+3. Click "Badge +" in the popup or overlay to update the toolbar badge.
+4. Open Settings and click "Reset badge count".
+
+## Customization
+
+### Change Content Script URL Pattern
+
+Edit `manifest.json` to change which pages the content script runs on:
+
+```json
+"content_scripts": [
+  {
+    "matches": ["https://example.com/*"],
+    "js": ["content-script/src/main.tsx"]
+  }
+]
 ```
 
-### Load the Extension
+### Add Permissions
 
-1. Navigate to [chrome://extensions/](chrome://extensions/)
-2. **Enable** "Developer mode" using the toggle switch in the top right corner.
-3. Click the **"Load unpacked"** button in the top left corner.
-4. Select the `dist` directory inside the `react-content-script` directory.
-5. Navigate to https://blank.org/ to see the Content Script React app in action.
-6. Open the extensions menu and click on **"React TypeScript Chrome Extension"** to see the Popup React app.
+This template uses `activeTab`. Add more
+permissions to `manifest.json` as needed:
 
-## [Popup](https://developer.chrome.com/docs/extensions/mv3/user_interface/#popup)
+```json
+"permissions": ["storage", "activeTab"]
+```
 
-The popup source code is at the root directory.
+## Tech Stack
 
-## [Content Script](https://developer.chrome.com/docs/extensions/mv3/content_scripts/)
-
-The content script source code is in the `content-script` directory.
-
-<img width="895" alt="Screen Shot 2022-06-18 at 10 04 04 AM" src="https://user-images.githubusercontent.com/16216104/174416528-6e5ad272-5faa-41d4-a717-c210ed4924b0.png">
-
-## Development Tips
-
-- **Live Reloading**: Use `yarn dev` to see changes immediately during development.
-- **Debugging**: Use Chrome DevTools to inspect and debug both the content script and popup.
-
-## Background
-
-This repository was originally part of [How to inject a React app into a Chrome Extension as a Content Script](https://medium.com/@yosevu/how-to-inject-a-react-app-into-a-chrome-extension-as-a-content-script-3a038f611067). 
+- [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Vite](https://vite.dev)
+- [CRXJS](https://crxjs.dev)
+- [Tailwind CSS](https://tailwindcss.com)
+- [ESLint](https://eslint.org)
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT
