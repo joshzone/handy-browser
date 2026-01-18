@@ -6,7 +6,7 @@ A minimal Chrome extension starter built with React 19, TypeScript, Vite, and Ta
 
 ```bash
 # Clone the template
-git clone https://github.com/yosevu/react-content-script.git my-extension
+git clone https://github.com/yosevu/react-chrome-extension-template.git my-extension
 cd my-extension
 
 # Run setup wizard

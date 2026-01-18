@@ -1,5 +1,5 @@
 {
-  "name": "my-chrome-extension",
+  "name": "react-chrome-extension-template",
   "private": true,
   "version": "0.1.0",
   "type": "module",
