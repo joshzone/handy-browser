@@ -11,6 +11,7 @@ cd my-extension
 
 # Run setup wizard
 npm run setup
+# (resets name/version/manifest to your project)
 
 # Install dependencies
 npm install
