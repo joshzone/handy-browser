@@ -1,17 +1,17 @@
-import React from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./main.css"; 
+import "@lib/styles/globals.css";
 import App from "./App";
 
-const app = document.createElement("div");
-app.id = "root";
+const existing = document.getElementById("extension-root");
+const container = existing ?? document.createElement("div");
+if (!existing) {
+  container.id = "extension-root";
+  document.body.appendChild(container);
+}
 
-document.body.prepend(app);
-
-const root = createRoot(app);
-
-root.render(
-  <React.StrictMode>
+createRoot(container).render(
+  <StrictMode>
     <App />
-  </React.StrictMode>
+  </StrictMode>
 );

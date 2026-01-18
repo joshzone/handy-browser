@@ -1,10 +1,10 @@
 type LogoProps = {
-  className: string;
-  id: string;
-  title: string;
+  className?: string;
+  id?: string;
+  title?: string;
 };
 
-function Logo({ className, id, title }: LogoProps) {
+export function Logo({ className, id = "logo", title = "Logo" }: LogoProps) {
   return (
     <svg
       className={className}
@@ -22,5 +22,3 @@ function Logo({ className, id, title }: LogoProps) {
     </svg>
   );
 }
-
-export default Logo;
