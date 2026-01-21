@@ -19,9 +19,13 @@ export default function SelectApi() {
   }, []);
 
   const loadApiProviders = () => {
-    if (typeof chrome === "undefined") return;
+    if (typeof chrome === "undefined" || !chrome.storage || !chrome.storage.sync) return;
 
     chrome.storage.sync.get("apiProviders", (result) => {
+      if (chrome.runtime.lastError) {
+        console.error("Error loading API providers:", chrome.runtime.lastError);
+        return;
+      }
       const providers = result.apiProviders || [];
       setApiProviders(providers);
       if (providers.length > 0) {
@@ -44,15 +48,21 @@ export default function SelectApi() {
     const updatedProviders = apiProviders.filter((provider) => provider.id !== id);
     setApiProviders(updatedProviders);
 
-    if (typeof chrome !== "undefined") {
-      chrome.storage.sync.set({ apiProviders: updatedProviders }, () => {
-        setStatus("API provider deleted successfully");
+    if (typeof chrome === "undefined" || !chrome.storage || !chrome.storage.sync) return;
+
+    chrome.storage.sync.set({ apiProviders: updatedProviders }, () => {
+      if (chrome.runtime.lastError) {
+        console.error("Error deleting API provider:", chrome.runtime.lastError);
+        setStatus("Error deleting API provider");
         setTimeout(() => setStatus(""), 2000);
-        if (selectedProvider === id) {
-          setSelectedProvider(updatedProviders.length > 0 ? updatedProviders[0].id : "");
-        }
-      });
-    }
+        return;
+      }
+      setStatus("API provider deleted successfully");
+      setTimeout(() => setStatus(""), 2000);
+      if (selectedProvider === id) {
+        setSelectedProvider(updatedProviders.length > 0 ? updatedProviders[0].id : "");
+      }
+    });
   };
 
   return (

@@ -28,9 +28,15 @@ export function EditPage() {
   }, [isEditMode, params.id]);
 
   const loadApiProvider = () => {
-    if (typeof chrome === "undefined" || !params.id) return;
+    if (typeof chrome === "undefined" || !chrome.storage || !chrome.storage.sync || !params.id) return;
 
     chrome.storage.sync.get("apiProviders", (result) => {
+      if (chrome.runtime.lastError) {
+        console.error("Error loading API provider:", chrome.runtime.lastError);
+        setStatus("Error loading API provider");
+        setTimeout(() => setStatus(""), 2000);
+        return;
+      }
       const providers = result.apiProviders || [];
       const provider = providers.find((p: ApiProvider) => p.id === params.id);
       if (provider) {
@@ -48,9 +54,15 @@ export function EditPage() {
       return;
     }
 
-    if (typeof chrome === "undefined") return;
+    if (typeof chrome === "undefined" || !chrome.storage || !chrome.storage.sync) return;
 
     chrome.storage.sync.get("apiProviders", (result) => {
+      if (chrome.runtime.lastError) {
+        console.error("Error loading API providers:", chrome.runtime.lastError);
+        setStatus("Error loading API providers");
+        setTimeout(() => setStatus(""), 2000);
+        return;
+      }
       const providers = result.apiProviders || [];
       let updatedProviders;
 
@@ -63,6 +75,12 @@ export function EditPage() {
       }
 
       chrome.storage.sync.set({ apiProviders: updatedProviders }, () => {
+        if (chrome.runtime.lastError) {
+          console.error("Error saving API provider:", chrome.runtime.lastError);
+          setStatus("Error saving API provider");
+          setTimeout(() => setStatus(""), 2000);
+          return;
+        }
         setStatus(isEditMode ? "API provider updated successfully" : "API provider created successfully");
         setTimeout(() => {
           navigate("/api-providers");
