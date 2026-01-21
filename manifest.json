@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "My Extension",
-  "description": "A Chrome extension built with React and TypeScript",
+  "name": "handy browser",
+  "description": "A handy browser extension for Chrome",
   "version": "0.2.0",
   "action": {
     "default_title": "Open popup",

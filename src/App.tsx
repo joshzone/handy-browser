@@ -55,7 +55,7 @@ export default function App() {
   return (
     <div className="w-[240px] p-3 bg-gray-900 text-white">
       <div className="flex items-center justify-between">
-        <h1 className="text-sm font-semibold">My Extension</h1>
+        <h1 className="text-sm font-semibold">handy browser</h1>
         <button
           className="text-xs text-gray-400 hover:text-white"
           type="button"
